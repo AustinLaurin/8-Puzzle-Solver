@@ -102,8 +102,12 @@ public class fifteenGraph {
         }
     }
 
-    Node root;
-    Node lastMove;
+    private Node root;
+    private Node lastMove;
+
+    fifteenGraph(int[][] puzzle) {
+        root = new Node(puzzle, 0);
+    }
 
     public int f(Node n) {
         return g(n) + h(n);
@@ -114,6 +118,6 @@ public class fifteenGraph {
     }
 
     public int h(Node n) {
-        return n.getDistancesFromFinalPosition();
+        return n.getDistancesFromFinalPosition() + n.calculateLinearConflicts();
     }
 }
