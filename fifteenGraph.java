@@ -33,12 +33,12 @@ public class fifteenGraph {
             
             for(int i = 0; i < element.length; i++) {
                 for(int j = 0; j < element[i].length; j++) {
-                    if(element[i][j] == 0)
-                        break;
-                    int iExpected = (element[i][j] - 1) / element[i].length;
-                    int jExpected = (element[i][j] - 1) % element[i].length;
-                    
-                    sum += Math.abs(i - iExpected) + Math.abs(j - jExpected);
+                    if(element[i][j] != 0) {
+                        int iExpected = (element[i][j] - 1) / element[i].length;
+                        int jExpected = (element[i][j] - 1) % element[i].length;
+                        
+                        sum += Math.abs(i - iExpected) + Math.abs(j - jExpected);
+                    }
                 }
             }
             return sum;
