@@ -1,8 +1,9 @@
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
 
-public class fifteenGraphTest {
-    @Test
+class fifteenGraphTest {
+	@Test
     void testNodeGetDepth() {
         Node n = new Node(null, 1);
         int expected = 1;
