@@ -11,11 +11,13 @@ public class fifteenGraph {
         private int distancesFromFinalPositionSum;
         private Node parent;
         private ArrayList<Node> children = new ArrayList<>();
+        private int createdBy;
 
-        Node(int[][] element, int depth, Node parent) {
+        Node(int[][] element, int depth, Node parent, int createdBy) {
             this.element = element;
             this.depth = depth;
             distancesFromFinalPositionSum = calculateDistancesFromFinalPosition();
+            this.createdBy = createdBy;
         }
 
         public int[][] getElement() {
@@ -35,11 +37,10 @@ public class fifteenGraph {
                         break;
                     int iExpected = (element[i][j] - 1) / element[i].length;
                     int jExpected = (element[i][j] - 1) % element[i].length;
-
-                    sum = Math.abs(i - iExpected) + Math.abs(j - jExpected);
+                    
+                    sum += Math.abs(i - iExpected) + Math.abs(j - jExpected);
                 }
             }
-            
             return sum;
         }
 
@@ -148,6 +149,10 @@ public class fifteenGraph {
         public void addChild(Node n) {
             children.add(n);
         }
+
+        public int getCreatedBy() {
+            return createdBy;
+        }
     }
 
     private Node root;
@@ -155,7 +160,7 @@ public class fifteenGraph {
     private Queue<Integer> moves = new LinkedList<>();
 
     fifteenGraph(int[][] puzzle) {
-        root = new Node(puzzle, 0, null);
+        root = new Node(puzzle, 0, null, 0);
     }
 
     public void solve() {
@@ -163,22 +168,21 @@ public class fifteenGraph {
         boolean solved = false;
 
         while(!solved) {
-            Map<Node, Integer> m = new HashMap<>();
-
             for(Integer i: lastMove.moves()) {
-                Node possibleMove = new Node(makeMove(lastMove, i), lastMove.getDepth() + 1, lastMove);
+                Node possibleMove = new Node(makeMove(lastMove, i), lastMove.getDepth() + 1, lastMove, i);
                 lastMove.addChild(possibleMove);
-                m.put(possibleMove, i);
             }
 
             int minF = findMinimumFInChildren(lastMove);
             for(Node c: lastMove.getChildren()) {
-                if(f(c) == 0) {
+                if(h(c) == 0) {
+                    lastMove = c;
+                    moves.add(c.getCreatedBy());
                     solved = true;
                 }
                 else if(f(c) == minF) {
                     lastMove = c;
-                    moves.add(m.get(c));
+                    moves.add(c.getCreatedBy());
                 }
             }
         }
@@ -209,7 +213,7 @@ public class fifteenGraph {
     }
 
     public int[][] makeMove(Node n, int move) {
-        int[][] puzzle = n.getElement().clone();
+        int[][] puzzle = copyMatrix(n.getElement());
 
         for(int i = 0; i < puzzle.length; i++) {
             for(int j = 0; j < puzzle[i].length; j++) {
@@ -235,6 +239,17 @@ public class fifteenGraph {
         }
 
         return puzzle;
+    }
+
+    public int[][] copyMatrix(int[][] data) {
+        int[][] copy = new int[data.length][data[0].length];
+        for(int i = 0; i < data.length; i++) {
+            for(int j = 0; j < data[i].length; j++) {
+                copy[i][j] = data[i][j];
+            }
+        }
+
+        return copy;
     }
 
     public void listMoves() {
