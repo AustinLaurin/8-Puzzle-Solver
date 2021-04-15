@@ -46,7 +46,28 @@ public class fifteenGraph {
         private int calculateVerticalLinearConflicts() {
             int count = 0;
 
-            
+            for(int i = 0; i < element.length; i+=2) {
+                for(int j = 0; j < element[i].length; j++) {
+                    int correctValue = (i * element.length) + j;
+                    
+                    if(i - 1 >= 0) {
+                        int correctValueAbove = ((i - 1) * element.length) + j;
+                        
+                        if((element[i][j] == correctValueAbove) && (element[i - 1][j] == correctValue)) {
+                            count++;
+                            break;
+                        }
+                    }
+                    if(i + 1 < element.length) {
+                        int correctValueBelow = ((i + 1) * element.length) + j;
+                        
+                        if((element[i][j] == correctValueBelow) && (element[i + 1][j] == correctValue)) {
+                            count++;
+                            break;
+                        }
+                    }
+                }
+            }
 
             return count;
         }
