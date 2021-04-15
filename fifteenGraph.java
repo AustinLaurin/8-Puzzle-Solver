@@ -1,5 +1,5 @@
 public class fifteenGraph {
-    public static class Node {
+    private static class Node {
         private int[][] element;
         private int depth;
 
@@ -15,5 +15,21 @@ public class fifteenGraph {
         public int getDepth() {
             return depth;
         }
+    }
+
+    Node root;
+    Node lastMove;
+
+    public int f(Node n) {
+        return g(n) + h(n);
+    }
+
+    public int g(Node n) {
+        return n.getDepth();
+    }
+
+    public int h(Node n) {
+        
+        return 0;
     }
 }
