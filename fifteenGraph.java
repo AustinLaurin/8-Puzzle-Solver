@@ -1,5 +1,5 @@
 public class fifteenGraph {
-    private static class Node {
+    public static class Node {
         private int[][] element;
         private int depth;
 
