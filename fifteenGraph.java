@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class fifteenGraph {
     private static class Node {
         private int[][] element;
@@ -99,6 +101,34 @@ public class fifteenGraph {
             }
 
             return count;
+        }
+    
+        public ArrayList<Integer> moves() {
+            ArrayList<Integer> moves = new ArrayList<>();
+            boolean found = false;
+
+            for(int i = 0; i < element.length; i++) {
+                for(int j = 0; j < element[i].length; j++) {
+                    if(element[i][j] == 0) {
+                        if(i - 1 >= 0)
+                            moves.add(element[i - 1][j]);
+                        if(i + 1 < element.length)
+                            moves.add(element[i + 1][j]);
+                        if(j - 1 >= 0)
+                            moves.add(element[i][j - 1]);
+                        if(j + 1 < element.length)
+                            moves.add(element[i][j + 1]);
+                        
+                        found = true;
+                        break; 
+                    }
+                }
+
+                if(found)
+                    break;
+            }
+
+            return moves;
         }
     }
 
