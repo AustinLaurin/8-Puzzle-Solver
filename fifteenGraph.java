@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class fifteenGraph {
     private static class Node {
@@ -148,6 +150,7 @@ public class fifteenGraph {
 
     private Node root;
     private Node lastMove;
+    private Queue<Integer> moves = new LinkedList<>();
 
     fifteenGraph(int[][] puzzle) {
         root = new Node(puzzle, 0, null);
@@ -192,5 +195,16 @@ public class fifteenGraph {
         }
 
         return puzzle;
+    }
+
+    public void listMoves() {
+        int count = 0;
+
+        while(count < moves.size()) {
+            int move = moves.remove();
+            System.out.println(move);
+            moves.add(move);
+            count++;
+        }
     }
 }
