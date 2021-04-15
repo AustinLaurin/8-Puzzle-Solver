@@ -75,6 +75,29 @@ public class fifteenGraph {
         private int caclculateHorizontalLinearConflicts() {
             int count = 0;
 
+            for(int i = 0; i < element.length; i++) {
+                for(int j = 0; j < element[i].length; j+=2) {
+                    int correctValue = (i * element.length) + j;
+                    
+                    if(j - 1 >= 0) {
+                        int correctValueLeft = (i * element.length) + (j - 1);
+                        
+                        if((element[i][j] == correctValueLeft) && (element[i][j - 1] == correctValue)) {
+                            count++;
+                            break;
+                        }
+                    }
+                    if(j + 1 < element.length) {
+                        int correctValueRight = (i * element.length) + (j + 1);
+                        
+                        if((element[i][j] == correctValueRight) && (element[i][j + 1] == correctValue)) {
+                            count++;
+                            break;
+                        }
+                    }
+                }
+            }
+
             return count;
         }
     }
