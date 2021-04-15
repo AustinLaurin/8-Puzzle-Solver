@@ -1,2 +1,2 @@
-main.class: main.java fifteenGraph.java
-	javac main.java fifteenGraph.java
+main.class: fifteenMain.java fifteenGraph.java
+	javac fifteenMain.java fifteenGraph.java
