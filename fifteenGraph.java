@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Queue;
 
 public class fifteenGraph {
@@ -154,6 +156,44 @@ public class fifteenGraph {
 
     fifteenGraph(int[][] puzzle) {
         root = new Node(puzzle, 0, null);
+    }
+
+    public void solve() {
+        lastMove = root;
+        boolean solved = false;
+
+        while(!solved) {
+            Map<Node, Integer> m = new HashMap<>();
+
+            for(Integer i: lastMove.moves()) {
+                Node possibleMove = new Node(makeMove(lastMove, i), lastMove.getDepth() + 1, lastMove);
+                lastMove.addChild(possibleMove);
+                m.put(possibleMove, i);
+            }
+
+            int minF = findMinimumFInChildren(lastMove);
+            for(Node c: lastMove.getChildren()) {
+                if(f(c) == 0) {
+                    solved = true;
+                }
+                else if(f(c) == minF) {
+                    lastMove = c;
+                    moves.add(m.get(c));
+                }
+            }
+        }
+    }
+
+    public int findMinimumFInChildren(Node n) {
+        int minimum = Integer.MAX_VALUE;
+        
+        for(Node c: n.getChildren()) {
+            if(minimum > f(c)) {
+                minimum = f(c);
+            }
+        }
+
+        return minimum;
     }
 
     public int f(Node n) {
