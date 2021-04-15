@@ -5,8 +5,10 @@ public class fifteenGraph {
         private int[][] element;
         private int depth;
         private int distancesFromFinalPositionSum;
+        private Node parent;
+        private ArrayList<Node> children = new ArrayList<>();
 
-        Node(int[][] element, int depth) {
+        Node(int[][] element, int depth, Node parent) {
             this.element = element;
             this.depth = depth;
             distancesFromFinalPositionSum = calculateDistancesFromFinalPosition();
@@ -130,13 +132,25 @@ public class fifteenGraph {
 
             return moves;
         }
+    
+        public Node getParent(Node n) {
+            return parent;
+        }
+
+        public ArrayList<Node> getChildren() {
+            return children;
+        }
+
+        public void addChild(Node n) {
+            children.add(n);
+        }
     }
 
     private Node root;
     private Node lastMove;
 
     fifteenGraph(int[][] puzzle) {
-        root = new Node(puzzle, 0);
+        root = new Node(puzzle, 0, null);
     }
 
     public int f(Node n) {
