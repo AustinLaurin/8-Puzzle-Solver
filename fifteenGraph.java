@@ -116,7 +116,7 @@ public class fifteenGraph {
                             moves.add(element[i + 1][j]);
                         if(j - 1 >= 0)
                             moves.add(element[i][j - 1]);
-                        if(j + 1 < element.length)
+                        if(j + 1 < element[i].length)
                             moves.add(element[i][j + 1]);
                         
                         found = true;
@@ -149,5 +149,34 @@ public class fifteenGraph {
 
     public int h(Node n) {
         return n.getDistancesFromFinalPosition() + n.calculateLinearConflicts();
+    }
+
+    public int[][] makeMove(Node n, int move) {
+        int[][] puzzle = n.getElement().clone();
+
+        for(int i = 0; i < puzzle.length; i++) {
+            for(int j = 0; j < puzzle[i].length; j++) {
+                if(puzzle[i][j] == move) {
+                    if(i - 1 >= 0 && puzzle[i - 1][j] == 0) {
+                        puzzle[i - 1][j] = puzzle[i][j];
+                        puzzle[i][j] = 0;
+                    }
+                    if(i + 1 < puzzle.length && puzzle[i + 1][j] == 0) {
+                        puzzle[i + 1][j] = puzzle[i][j];
+                        puzzle[i][j] = 0;
+                    }
+                    if(j - 1 >= 0 && puzzle[i][j - 1] == 0) {
+                        puzzle[i][j - 1] = puzzle[i][j];
+                        puzzle[i][j] = 0;
+                    }
+                    if(j + 1 < puzzle.length && puzzle[i][j + 1] == 0) {
+                        puzzle[i][j + 1] = puzzle[i][j];
+                        puzzle[i][j] = 0;
+                    }                           
+                }
+            }
+        }
+
+        return puzzle;
     }
 }
