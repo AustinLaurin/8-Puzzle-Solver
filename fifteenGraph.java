@@ -17,6 +17,7 @@ public class fifteenGraph {
             this.element = element;
             this.depth = depth;
             distancesFromFinalPositionSum = calculateDistancesFromFinalPosition();
+            this.parent = parent;
             this.createdBy = createdBy;
         }
 
@@ -138,7 +139,7 @@ public class fifteenGraph {
             return moves;
         }
     
-        public Node getParent(Node n) {
+        public Node getParent() {
             return parent;
         }
 
@@ -166,25 +167,27 @@ public class fifteenGraph {
     public void solve() {
         lastMove = root;
         boolean solved = false;
-
-        while(!solved) {
+        while(!solved && h(root) != 0) {
             for(Integer i: lastMove.moves()) {
                 Node possibleMove = new Node(makeMove(lastMove, i), lastMove.getDepth() + 1, lastMove, i);
                 lastMove.addChild(possibleMove);
             }
-
+            
             int minF = findMinimumFInChildren(lastMove);
             for(Node c: lastMove.getChildren()) {
                 if(h(c) == 0) {
                     lastMove = c;
                     moves.add(c.getCreatedBy());
                     solved = true;
+                    break;
                 }
                 else if(f(c) == minF) {
                     lastMove = c;
                     moves.add(c.getCreatedBy());
+                    break;
                 }
             }
+            break;
         }
     }
 
@@ -214,6 +217,7 @@ public class fifteenGraph {
 
     public int[][] makeMove(Node n, int move) {
         int[][] puzzle = copyMatrix(n.getElement());
+        boolean moved = false;
 
         for(int i = 0; i < puzzle.length; i++) {
             for(int j = 0; j < puzzle[i].length; j++) {
@@ -221,21 +225,29 @@ public class fifteenGraph {
                     if(i - 1 >= 0 && puzzle[i - 1][j] == 0) {
                         puzzle[i - 1][j] = puzzle[i][j];
                         puzzle[i][j] = 0;
+                        moved = true;
                     }
-                    if(i + 1 < puzzle.length && puzzle[i + 1][j] == 0) {
+                    else if(i + 1 < puzzle.length && puzzle[i + 1][j] == 0) {
                         puzzle[i + 1][j] = puzzle[i][j];
                         puzzle[i][j] = 0;
+                        moved = true;
                     }
-                    if(j - 1 >= 0 && puzzle[i][j - 1] == 0) {
+                    else if(j - 1 >= 0 && puzzle[i][j - 1] == 0) {
                         puzzle[i][j - 1] = puzzle[i][j];
                         puzzle[i][j] = 0;
+                        moved = true;
                     }
-                    if(j + 1 < puzzle.length && puzzle[i][j + 1] == 0) {
+                    else if(j + 1 < puzzle.length && puzzle[i][j + 1] == 0) {
                         puzzle[i][j + 1] = puzzle[i][j];
                         puzzle[i][j] = 0;
+                        moved = true;
                     }                           
                 }
+                if(moved)
+                    break;
             }
+            if(moved)
+                break;
         }
 
         return puzzle;
