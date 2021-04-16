@@ -66,7 +66,7 @@ public class fifteenGraph {
                         //No linear conflict with self. 
                         boolean wrongPlace = element[k][j] != ((k * element.length) + j + 1);
                         boolean goalColumn = j == ((element[k][j] - 1) % element[k].length);
-                        boolean columnMember = j == ((element[i][j] - 1) % element[i].length);
+                        boolean columnMember = j == ((element[i][j] - 1) % element[k].length);
                         if((i != k) && (wrongPlace && goalColumn) && element[i][j] != 0) {
                             /*
                                 *Is our tile blocking this tile from being in its position?
@@ -77,10 +77,10 @@ public class fifteenGraph {
                             
                             //First case.  
                             int kExpected = (element[k][j] - 1) / element[k].length;
-                            if(kExpected < k && kExpected <= i && k > i && columnMember)
+                            if(element[k][j] != 0 && kExpected < k && kExpected <= i && k > i && columnMember)
                                 count++;
                             //Second case.
-                            if(kExpected > k && kExpected >= i && k < i && columnMember)
+                            if(element[k][j] != 0 && kExpected > k && kExpected >= i && k < i && columnMember)
                                 count++;
                         }
                     }
@@ -122,29 +122,64 @@ public class fifteenGraph {
             int count = 0;
 
             for(int i = 0; i < element.length; i++) {
-                for(int j = 0; j < element[i].length; j+=2) {
-                    int correctValue = (i * element.length) + j;
-                    
-                    if(j - 1 >= 0) {
-                        int correctValueLeft = (i * element.length) + (j - 1) + 1;
-                        
-                        if((element[i][j] == correctValueLeft) && (element[i][j - 1] == correctValue)) {
-                            count++;
-                            break;
+                for(int j = 0; j < element[i].length; j++) {
+                    //We need to check every other tile in the same row.
+                    for(int k = 0; k < element[i].length; k++) {
+                        //The element is not in its appropriate position and belongs in the row.
+                        //The element we are checking around must belong in the row.
+                        //No linear conflict with self. 
+                        boolean wrongPlace = element[i][k] != ((i * element.length) + k + 1);
+                        boolean goalRow = i == ((element[i][k] - 1) / element[i].length);
+                        boolean rowMember = j == ((element[i][j] - 1) % element[i].length);
+                        if((j != k) && (wrongPlace && goalRow) && element[i][j] != 0) {
+                            /*
+                                *Is our tile blocking this tile from being in its position?
+                                *If so, we have two cases to account for.
+                                *One: the tile needs to be to the left of the position of our current tile.
+                                *Two: the tile needs to be to the right of the position of our current tile.
+                            */
+                            
+                            //First case.  
+                            int kExpected = (element[k][j] - 1) / element[k].length;
+                            if(element[i][k] != 0 && kExpected < k && kExpected <= i && k > i && rowMember)
+                                count++;
+                            //Second case.
+                            if(element[i][k] != 0 && kExpected > k && kExpected >= i && k < i && rowMember)
+                                count++;
                         }
                     }
-                    if(j + 1 < element.length) {
-                        int correctValueRight = (i * element.length) + (j + 1) + 1;
+                    //The current tile we are at is not in its appropriate position.
+                    //If not, we need to check if it's being blocked by another tile.
+                    boolean wrongPlace = element[i][j] != ((i * element.length) + j + 1);
+                    boolean goalRow = i == ((element[i][j] - 1) / element[i].length);
+                    if(wrongPlace && goalRow) {
+                        //We need to check every other tile in the row.
+                        int jExpected = (element[i][j] - 1) % element[i].length;
+                        for(int k = 0; k < element.length; k++) {
+                            //No linear conflict with itself.
+                            if(j != k) {
+                                /*
+                                    *Is our tile being blocked by another tile belonging in the column?
+                                    *If so, we have two cases to account for.
+                                    *One: the tile needs to be to the right.
+                                    *Two: the tile needs to be to the left.
+                                */
+                                boolean rowMember = i == ((element[i][k] - 1) / element[i].length);
+                                //First case.
+                                if(jExpected < j && jExpected <= k &&  k < j && rowMember && element[i][k] != 0)
+                                    count++;
+                                //Second case.
+                                if(jExpected > j && jExpected >= k &&  k > j && rowMember && element[i][k] != 0)
+                                    count++;
+                            }
                         
-                        if((element[i][j] == correctValueRight) && (element[i][j + 1] == correctValue)) {
-                            count++;
-                            break;
                         }
                     }
                 }
             }
 
-            return count;
+            //Conflicts are counted twice in this framework, so divide by 2. Even result, so no remainder.
+            return count/2;
         }
     
         public ArrayList<Integer> moves() {
