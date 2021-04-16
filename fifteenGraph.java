@@ -57,30 +57,65 @@ public class fifteenGraph {
         private int calculateVerticalLinearConflicts() {
             int count = 0;
 
-            for(int i = 0; i < element.length; i+=2) {
+            for(int i = 0; i < element.length; i++) {
                 for(int j = 0; j < element[i].length; j++) {
-                    int correctValue = (i * element.length) + j + 1;
-                    
-                    if(i - 1 >= 0) {
-                        int correctValueAbove = ((i - 1) * element.length) + j + 1;
-                        
-                        if((element[i][j] == correctValueAbove) && (element[i - 1][j] == correctValue)) {
-                            count++;
-                            break;
+                    //We need to check every other tile in the same column.
+                    for(int k = 0; k < element.length; k++) {
+                        //The element is not in its appropriate position and belongs in the column.
+                        //The element we are checking around must belong in the column.
+                        //No linear conflict with self. 
+                        boolean wrongPlace = element[k][j] != ((k * element.length) + j + 1);
+                        boolean goalColumn = j == ((element[k][j] - 1) % element[k].length);
+                        boolean columnMember = j == ((element[i][j] - 1) % element[i].length);
+                        if((i != k) && (wrongPlace && goalColumn) && element[i][j] != 0) {
+                            /*
+                                *Is our tile blocking this tile from being in its position?
+                                *If so, we have two cases to account for.
+                                *One: the tile needs to be higher than the position of our current tile.
+                                *Two: the tile needs to be lower than the position of our current tile.
+                            */
+                            
+                            //First case.  
+                            int kExpected = (element[k][j] - 1) / element[k].length;
+                            if(kExpected < k && kExpected <= i && k > i && columnMember)
+                                count++;
+                            //Second case.
+                            if(kExpected > k && kExpected >= i && k < i && columnMember)
+                                count++;
                         }
                     }
-                    if(i + 1 < element.length) {
-                        int correctValueBelow = ((i + 1) * element.length) + j + 1;
+                    //The current tile we are at is not in its appropriate position.
+                    //If not, we need to check if it's being blocked by another tile.
+                    boolean wrongPlace = element[i][j] != ((i * element.length) + j + 1);
+                    boolean goalColumn = j == ((element[i][j] - 1) % element[i].length);
+                    if(wrongPlace && goalColumn) {
+                        //We need to check every other tile in the column.
+                        int iExpected = (element[i][j] - 1) / element[i].length;
+                        for(int k = 0; k < element.length; k++) {
+                            //No linear conflict with itself.
+                            if(i != k) {
+                                /*
+                                    *Is our tile being blocked by another tile belonging in the column?
+                                    *If so, we have two cases to account for.
+                                    *One: the tile needs to be higher.
+                                    *Two: the tile needs to be lower.
+                                */
+                                boolean columnMember = j == ((element[k][j] - 1) % element[k].length);
+                                //First case.
+                                if(iExpected < i && iExpected <= k &&  k < i && columnMember && element[k][j] != 0)
+                                    count++;
+                                //Second case.
+                                if(iExpected > i && iExpected >= k &&  k > i && columnMember && element[k][j] != 0)
+                                    count++;
+                            }
                         
-                        if((element[i][j] == correctValueBelow) && (element[i + 1][j] == correctValue)) {
-                            count++;
-                            break;
                         }
                     }
                 }
             }
 
-            return count;
+            //Conflicts are counted twice in this framework, so divide by 2. Even result, so no remainder.
+            return count/2;
         }
 
         private int caclculateHorizontalLinearConflicts() {
@@ -220,7 +255,7 @@ public class fifteenGraph {
     }
 
     public int h(Node n) {
-        return n.getDistancesFromFinalPosition() + n.calculateLinearConflicts();
+        return n.getDistancesFromFinalPosition() + (2 * n.calculateLinearConflicts());
     }
 
     public int[][] makeMove(Node n, int move) {
