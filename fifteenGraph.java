@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -58,10 +59,10 @@ public class fifteenGraph {
 
             for(int i = 0; i < element.length; i+=2) {
                 for(int j = 0; j < element[i].length; j++) {
-                    int correctValue = (i * element.length) + j;
+                    int correctValue = (i * element.length) + j + 1;
                     
                     if(i - 1 >= 0) {
-                        int correctValueAbove = ((i - 1) * element.length) + j;
+                        int correctValueAbove = ((i - 1) * element.length) + j + 1;
                         
                         if((element[i][j] == correctValueAbove) && (element[i - 1][j] == correctValue)) {
                             count++;
@@ -69,7 +70,7 @@ public class fifteenGraph {
                         }
                     }
                     if(i + 1 < element.length) {
-                        int correctValueBelow = ((i + 1) * element.length) + j;
+                        int correctValueBelow = ((i + 1) * element.length) + j + 1;
                         
                         if((element[i][j] == correctValueBelow) && (element[i + 1][j] == correctValue)) {
                             count++;
@@ -90,7 +91,7 @@ public class fifteenGraph {
                     int correctValue = (i * element.length) + j;
                     
                     if(j - 1 >= 0) {
-                        int correctValueLeft = (i * element.length) + (j - 1);
+                        int correctValueLeft = (i * element.length) + (j - 1) + 1;
                         
                         if((element[i][j] == correctValueLeft) && (element[i][j - 1] == correctValue)) {
                             count++;
@@ -98,7 +99,7 @@ public class fifteenGraph {
                         }
                     }
                     if(j + 1 < element.length) {
-                        int correctValueRight = (i * element.length) + (j + 1);
+                        int correctValueRight = (i * element.length) + (j + 1) + 1;
                         
                         if((element[i][j] == correctValueRight) && (element[i][j + 1] == correctValue)) {
                             count++;
@@ -168,6 +169,10 @@ public class fifteenGraph {
         lastMove = root;
         boolean solved = false;
         while(!solved && h(root) != 0) {
+            System.out.println("Possible moves: ");
+            for(Integer i: lastMove.moves()) {
+                System.out.println(i);
+            }
             for(Integer i: lastMove.moves()) {
                 Node possibleMove = new Node(makeMove(lastMove, i), lastMove.getDepth() + 1, lastMove, i);
                 lastMove.addChild(possibleMove);
@@ -187,7 +192,10 @@ public class fifteenGraph {
                     break;
                 }
             }
-            break;
+            System.out.println("Chosen move: " + lastMove.getCreatedBy());
+            System.out.println("Resulting matrix: ");
+            for(int i = 0; i < lastMove.getElement().length; i++)
+                System.out.println(Arrays.toString(lastMove.getElement()[i]));
         }
     }
 
