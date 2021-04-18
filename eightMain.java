@@ -4,9 +4,9 @@ public class eightMain {
                           {1, 0, 6},
                           {3, 8, 7}};
                           
-        eightGraph fg = new eightGraph(puzzle);
-        fg.solve();
+        eightGraph eg = new eightGraph(puzzle);
+        eg.solve();
         System.out.println("Moves made: ");
-        fg.listMoves();
+        eg.listMoves();
     }
 }
