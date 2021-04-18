@@ -1,0 +1,852 @@
+Script started on 2021-04-17 20:22:12-0400
+]0;root@LAPTOP-HFN8C8QO: ~/fifteenPuzzleSolver/15-Puzzle-Solverroot@LAPTOP-HFN8C8QO:~/fifteenPuzzleSolver/15-Puzzle-Solver# cat ma[K[KfifteenMain.java 
+public class fifteenMain {
+    public static void main(String[] args) {
+        int[][] puzzle = {{ 5,  6,  0,  1},
+                          { 2,  7, 14,  4},
+                          {13,  3, 11, 10},
+                          {15,  9, 12,  8}};
+        fifteenGraph fg = new fifteenGraph(puzzle);
+        fg.solve();
+        System.out.println("Moves made: ");
+        fg.listMoves();
+    }
+}
+]0;root@LAPTOP-HFN8C8QO: ~/fifteenPuzzleSolver/15-Puzzle-Solverroot@LAPTOP-HFN8C8QO:~/fifteenPuzzleSolver/15-Puzzle-Solver# make
+javac fifteenMain.java fifteenGraph.java
+]0;root@LAPTOP-HFN8C8QO: ~/fifteenPuzzleSolver/15-Puzzle-Solverroot@LAPTOP-HFN8C8QO:~/fifteenPuzzleSolver/15-Puzzle-Solver# makecat fifteenMain.java logout[Kcat fifteenMain.java make[K[Kjava fifteenMain
+Possible moves: 
+14
+6
+1
+Chosen move: 1
+Resulting matrix: 
+[5, 6, 1, 0]
+[2, 7, 14, 4]
+[13, 3, 11, 10]
+[15, 9, 12, 8]
+Possible moves: 
+4
+1
+Chosen move: 4
+Resulting matrix: 
+[5, 6, 1, 4]
+[2, 7, 14, 0]
+[13, 3, 11, 10]
+[15, 9, 12, 8]
+Possible moves: 
+4
+10
+14
+Chosen move: 10
+Resulting matrix: 
+[5, 6, 1, 4]
+[2, 7, 14, 10]
+[13, 3, 11, 0]
+[15, 9, 12, 8]
+Possible moves: 
+10
+8
+11
+Chosen move: 8
+Resulting matrix: 
+[5, 6, 1, 4]
+[2, 7, 14, 10]
+[13, 3, 11, 8]
+[15, 9, 12, 0]
+Possible moves: 
+8
+12
+Chosen move: 12
+Resulting matrix: 
+[5, 6, 1, 4]
+[2, 7, 14, 10]
+[13, 3, 11, 8]
+[15, 9, 0, 12]
+Possible moves: 
+11
+9
+12
+Chosen move: 11
+Resulting matrix: 
+[5, 6, 1, 4]
+[2, 7, 14, 10]
+[13, 3, 0, 8]
+[15, 9, 11, 12]
+Possible moves: 
+14
+11
+3
+8
+Chosen move: 14
+Resulting matrix: 
+[5, 6, 1, 4]
+[2, 7, 0, 10]
+[13, 3, 14, 8]
+[15, 9, 11, 12]
+Possible moves: 
+1
+14
+7
+10
+Chosen move: 7
+Resulting matrix: 
+[5, 6, 1, 4]
+[2, 0, 7, 10]
+[13, 3, 14, 8]
+[15, 9, 11, 12]
+Possible moves: 
+6
+3
+2
+7
+Chosen move: 6
+Resulting matrix: 
+[5, 0, 1, 4]
+[2, 6, 7, 10]
+[13, 3, 14, 8]
+[15, 9, 11, 12]
+Possible moves: 
+6
+5
+1
+Chosen move: 1
+Resulting matrix: 
+[5, 1, 0, 4]
+[2, 6, 7, 10]
+[13, 3, 14, 8]
+[15, 9, 11, 12]
+Possible moves: 
+7
+1
+4
+Chosen move: 7
+Resulting matrix: 
+[5, 1, 7, 4]
+[2, 6, 0, 10]
+[13, 3, 14, 8]
+[15, 9, 11, 12]
+Possible moves: 
+7
+14
+6
+10
+Chosen move: 14
+Resulting matrix: 
+[5, 1, 7, 4]
+[2, 6, 14, 10]
+[13, 3, 0, 8]
+[15, 9, 11, 12]
+Possible moves: 
+14
+11
+3
+8
+Chosen move: 11
+Resulting matrix: 
+[5, 1, 7, 4]
+[2, 6, 14, 10]
+[13, 3, 11, 8]
+[15, 9, 0, 12]
+Possible moves: 
+11
+9
+12
+Chosen move: 12
+Resulting matrix: 
+[5, 1, 7, 4]
+[2, 6, 14, 10]
+[13, 3, 11, 8]
+[15, 9, 12, 0]
+Possible moves: 
+8
+12
+Chosen move: 8
+Resulting matrix: 
+[5, 1, 7, 4]
+[2, 6, 14, 10]
+[13, 3, 11, 0]
+[15, 9, 12, 8]
+Possible moves: 
+10
+8
+11
+Chosen move: 11
+Resulting matrix: 
+[5, 1, 7, 4]
+[2, 6, 14, 10]
+[13, 3, 0, 11]
+[15, 9, 12, 8]
+Possible moves: 
+14
+12
+3
+11
+Chosen move: 14
+Resulting matrix: 
+[5, 1, 7, 4]
+[2, 6, 0, 10]
+[13, 3, 14, 11]
+[15, 9, 12, 8]
+Possible moves: 
+7
+14
+6
+10
+Chosen move: 7
+Resulting matrix: 
+[5, 1, 0, 4]
+[2, 6, 7, 10]
+[13, 3, 14, 11]
+[15, 9, 12, 8]
+Possible moves: 
+7
+1
+4
+Chosen move: 1
+Resulting matrix: 
+[5, 0, 1, 4]
+[2, 6, 7, 10]
+[13, 3, 14, 11]
+[15, 9, 12, 8]
+Possible moves: 
+6
+5
+1
+Chosen move: 6
+Resulting matrix: 
+[5, 6, 1, 4]
+[2, 0, 7, 10]
+[13, 3, 14, 11]
+[15, 9, 12, 8]
+Possible moves: 
+6
+3
+2
+7
+Chosen move: 3
+Resulting matrix: 
+[5, 6, 1, 4]
+[2, 3, 7, 10]
+[13, 0, 14, 11]
+[15, 9, 12, 8]
+Possible moves: 
+3
+9
+13
+14
+Chosen move: 9
+Resulting matrix: 
+[5, 6, 1, 4]
+[2, 3, 7, 10]
+[13, 9, 14, 11]
+[15, 0, 12, 8]
+Possible moves: 
+9
+15
+12
+Chosen move: 15
+Resulting matrix: 
+[5, 6, 1, 4]
+[2, 3, 7, 10]
+[13, 9, 14, 11]
+[0, 15, 12, 8]
+Possible moves: 
+13
+15
+Chosen move: 13
+Resulting matrix: 
+[5, 6, 1, 4]
+[2, 3, 7, 10]
+[0, 9, 14, 11]
+[13, 15, 12, 8]
+Possible moves: 
+2
+13
+9
+Chosen move: 9
+Resulting matrix: 
+[5, 6, 1, 4]
+[2, 3, 7, 10]
+[9, 0, 14, 11]
+[13, 15, 12, 8]
+Possible moves: 
+3
+15
+9
+14
+Chosen move: 14
+Resulting matrix: 
+[5, 6, 1, 4]
+[2, 3, 7, 10]
+[9, 14, 0, 11]
+[13, 15, 12, 8]
+Possible moves: 
+7
+12
+14
+11
+Chosen move: 11
+Resulting matrix: 
+[5, 6, 1, 4]
+[2, 3, 7, 10]
+[9, 14, 11, 0]
+[13, 15, 12, 8]
+Possible moves: 
+10
+8
+11
+Chosen move: 8
+Resulting matrix: 
+[5, 6, 1, 4]
+[2, 3, 7, 10]
+[9, 14, 11, 8]
+[13, 15, 12, 0]
+Possible moves: 
+8
+12
+Chosen move: 12
+Resulting matrix: 
+[5, 6, 1, 4]
+[2, 3, 7, 10]
+[9, 14, 11, 8]
+[13, 15, 0, 12]
+Possible moves: 
+11
+15
+12
+Chosen move: 15
+Resulting matrix: 
+[5, 6, 1, 4]
+[2, 3, 7, 10]
+[9, 14, 11, 8]
+[13, 0, 15, 12]
+Possible moves: 
+14
+13
+15
+Chosen move: 14
+Resulting matrix: 
+[5, 6, 1, 4]
+[2, 3, 7, 10]
+[9, 0, 11, 8]
+[13, 14, 15, 12]
+Possible moves: 
+3
+14
+9
+11
+Chosen move: 3
+Resulting matrix: 
+[5, 6, 1, 4]
+[2, 0, 7, 10]
+[9, 3, 11, 8]
+[13, 14, 15, 12]
+Possible moves: 
+6
+3
+2
+7
+Chosen move: 6
+Resulting matrix: 
+[5, 0, 1, 4]
+[2, 6, 7, 10]
+[9, 3, 11, 8]
+[13, 14, 15, 12]
+Possible moves: 
+6
+5
+1
+Chosen move: 1
+Resulting matrix: 
+[5, 1, 0, 4]
+[2, 6, 7, 10]
+[9, 3, 11, 8]
+[13, 14, 15, 12]
+Possible moves: 
+7
+1
+4
+Chosen move: 7
+Resulting matrix: 
+[5, 1, 7, 4]
+[2, 6, 0, 10]
+[9, 3, 11, 8]
+[13, 14, 15, 12]
+Possible moves: 
+7
+11
+6
+10
+Chosen move: 6
+Resulting matrix: 
+[5, 1, 7, 4]
+[2, 0, 6, 10]
+[9, 3, 11, 8]
+[13, 14, 15, 12]
+Possible moves: 
+1
+3
+2
+6
+Chosen move: 3
+Resulting matrix: 
+[5, 1, 7, 4]
+[2, 3, 6, 10]
+[9, 0, 11, 8]
+[13, 14, 15, 12]
+Possible moves: 
+3
+14
+9
+11
+Chosen move: 14
+Resulting matrix: 
+[5, 1, 7, 4]
+[2, 3, 6, 10]
+[9, 14, 11, 8]
+[13, 0, 15, 12]
+Possible moves: 
+14
+13
+15
+Chosen move: 13
+Resulting matrix: 
+[5, 1, 7, 4]
+[2, 3, 6, 10]
+[9, 14, 11, 8]
+[0, 13, 15, 12]
+Possible moves: 
+9
+13
+Chosen move: 9
+Resulting matrix: 
+[5, 1, 7, 4]
+[2, 3, 6, 10]
+[0, 14, 11, 8]
+[9, 13, 15, 12]
+Possible moves: 
+2
+9
+14
+Chosen move: 2
+Resulting matrix: 
+[5, 1, 7, 4]
+[0, 3, 6, 10]
+[2, 14, 11, 8]
+[9, 13, 15, 12]
+Possible moves: 
+5
+2
+3
+Chosen move: 5
+Resulting matrix: 
+[0, 1, 7, 4]
+[5, 3, 6, 10]
+[2, 14, 11, 8]
+[9, 13, 15, 12]
+Possible moves: 
+5
+1
+Chosen move: 1
+Resulting matrix: 
+[1, 0, 7, 4]
+[5, 3, 6, 10]
+[2, 14, 11, 8]
+[9, 13, 15, 12]
+Possible moves: 
+3
+1
+7
+Chosen move: 3
+Resulting matrix: 
+[1, 3, 7, 4]
+[5, 0, 6, 10]
+[2, 14, 11, 8]
+[9, 13, 15, 12]
+Possible moves: 
+3
+14
+5
+6
+Chosen move: 6
+Resulting matrix: 
+[1, 3, 7, 4]
+[5, 6, 0, 10]
+[2, 14, 11, 8]
+[9, 13, 15, 12]
+Possible moves: 
+7
+11
+6
+10
+Chosen move: 10
+Resulting matrix: 
+[1, 3, 7, 4]
+[5, 6, 10, 0]
+[2, 14, 11, 8]
+[9, 13, 15, 12]
+Possible moves: 
+4
+8
+10
+Chosen move: 8
+Resulting matrix: 
+[1, 3, 7, 4]
+[5, 6, 10, 8]
+[2, 14, 11, 0]
+[9, 13, 15, 12]
+Possible moves: 
+8
+12
+11
+Chosen move: 12
+Resulting matrix: 
+[1, 3, 7, 4]
+[5, 6, 10, 8]
+[2, 14, 11, 12]
+[9, 13, 15, 0]
+Possible moves: 
+12
+15
+Chosen move: 15
+Resulting matrix: 
+[1, 3, 7, 4]
+[5, 6, 10, 8]
+[2, 14, 11, 12]
+[9, 13, 0, 15]
+Possible moves: 
+11
+13
+15
+Chosen move: 11
+Resulting matrix: 
+[1, 3, 7, 4]
+[5, 6, 10, 8]
+[2, 14, 0, 12]
+[9, 13, 11, 15]
+Possible moves: 
+10
+11
+14
+12
+Chosen move: 10
+Resulting matrix: 
+[1, 3, 7, 4]
+[5, 6, 0, 8]
+[2, 14, 10, 12]
+[9, 13, 11, 15]
+Possible moves: 
+7
+10
+6
+8
+Chosen move: 7
+Resulting matrix: 
+[1, 3, 0, 4]
+[5, 6, 7, 8]
+[2, 14, 10, 12]
+[9, 13, 11, 15]
+Possible moves: 
+7
+3
+4
+Chosen move: 3
+Resulting matrix: 
+[1, 0, 3, 4]
+[5, 6, 7, 8]
+[2, 14, 10, 12]
+[9, 13, 11, 15]
+Possible moves: 
+6
+1
+3
+Chosen move: 1
+Resulting matrix: 
+[0, 1, 3, 4]
+[5, 6, 7, 8]
+[2, 14, 10, 12]
+[9, 13, 11, 15]
+Possible moves: 
+5
+1
+Chosen move: 5
+Resulting matrix: 
+[5, 1, 3, 4]
+[0, 6, 7, 8]
+[2, 14, 10, 12]
+[9, 13, 11, 15]
+Possible moves: 
+5
+2
+6
+Chosen move: 2
+Resulting matrix: 
+[5, 1, 3, 4]
+[2, 6, 7, 8]
+[0, 14, 10, 12]
+[9, 13, 11, 15]
+Possible moves: 
+2
+9
+14
+Chosen move: 9
+Resulting matrix: 
+[5, 1, 3, 4]
+[2, 6, 7, 8]
+[9, 14, 10, 12]
+[0, 13, 11, 15]
+Possible moves: 
+9
+13
+Chosen move: 13
+Resulting matrix: 
+[5, 1, 3, 4]
+[2, 6, 7, 8]
+[9, 14, 10, 12]
+[13, 0, 11, 15]
+Possible moves: 
+14
+13
+11
+Chosen move: 14
+Resulting matrix: 
+[5, 1, 3, 4]
+[2, 6, 7, 8]
+[9, 0, 10, 12]
+[13, 14, 11, 15]
+Possible moves: 
+6
+14
+9
+10
+Chosen move: 10
+Resulting matrix: 
+[5, 1, 3, 4]
+[2, 6, 7, 8]
+[9, 10, 0, 12]
+[13, 14, 11, 15]
+Possible moves: 
+7
+11
+10
+12
+Chosen move: 11
+Resulting matrix: 
+[5, 1, 3, 4]
+[2, 6, 7, 8]
+[9, 10, 11, 12]
+[13, 14, 0, 15]
+Possible moves: 
+11
+14
+15
+Chosen move: 15
+Resulting matrix: 
+[5, 1, 3, 4]
+[2, 6, 7, 8]
+[9, 10, 11, 12]
+[13, 14, 15, 0]
+Possible moves: 
+12
+15
+Chosen move: 12
+Resulting matrix: 
+[5, 1, 3, 4]
+[2, 6, 7, 8]
+[9, 10, 11, 0]
+[13, 14, 15, 12]
+Possible moves: 
+8
+12
+11
+Chosen move: 11
+Resulting matrix: 
+[5, 1, 3, 4]
+[2, 6, 7, 8]
+[9, 10, 0, 11]
+[13, 14, 15, 12]
+Possible moves: 
+7
+15
+10
+11
+Chosen move: 7
+Resulting matrix: 
+[5, 1, 3, 4]
+[2, 6, 0, 8]
+[9, 10, 7, 11]
+[13, 14, 15, 12]
+Possible moves: 
+3
+7
+6
+8
+Chosen move: 6
+Resulting matrix: 
+[5, 1, 3, 4]
+[2, 0, 6, 8]
+[9, 10, 7, 11]
+[13, 14, 15, 12]
+Possible moves: 
+1
+10
+2
+6
+Chosen move: 2
+Resulting matrix: 
+[5, 1, 3, 4]
+[0, 2, 6, 8]
+[9, 10, 7, 11]
+[13, 14, 15, 12]
+Possible moves: 
+5
+9
+2
+Chosen move: 5
+Resulting matrix: 
+[0, 1, 3, 4]
+[5, 2, 6, 8]
+[9, 10, 7, 11]
+[13, 14, 15, 12]
+Possible moves: 
+5
+1
+Chosen move: 1
+Resulting matrix: 
+[1, 0, 3, 4]
+[5, 2, 6, 8]
+[9, 10, 7, 11]
+[13, 14, 15, 12]
+Possible moves: 
+2
+1
+3
+Chosen move: 2
+Resulting matrix: 
+[1, 2, 3, 4]
+[5, 0, 6, 8]
+[9, 10, 7, 11]
+[13, 14, 15, 12]
+Possible moves: 
+2
+10
+5
+6
+Chosen move: 6
+Resulting matrix: 
+[1, 2, 3, 4]
+[5, 6, 0, 8]
+[9, 10, 7, 11]
+[13, 14, 15, 12]
+Possible moves: 
+3
+7
+6
+8
+Chosen move: 7
+Resulting matrix: 
+[1, 2, 3, 4]
+[5, 6, 7, 8]
+[9, 10, 0, 11]
+[13, 14, 15, 12]
+Possible moves: 
+7
+15
+10
+11
+Chosen move: 11
+Resulting matrix: 
+[1, 2, 3, 4]
+[5, 6, 7, 8]
+[9, 10, 11, 0]
+[13, 14, 15, 12]
+Possible moves: 
+8
+12
+11
+Chosen move: 12
+Resulting matrix: 
+[1, 2, 3, 4]
+[5, 6, 7, 8]
+[9, 10, 11, 12]
+[13, 14, 15, 0]
+Moves made: 
+1
+4
+10
+8
+12
+11
+14
+7
+6
+1
+7
+14
+11
+12
+8
+11
+14
+7
+1
+6
+3
+9
+15
+13
+9
+14
+11
+8
+12
+15
+14
+3
+6
+1
+7
+6
+3
+14
+13
+9
+2
+5
+1
+3
+6
+10
+8
+12
+15
+11
+10
+7
+3
+1
+5
+2
+9
+13
+14
+10
+11
+15
+12
+11
+7
+6
+2
+5
+1
+2
+6
+7
+11
+12
+]0;root@LAPTOP-HFN8C8QO: ~/fifteenPuzzleSolver/15-Puzzle-Solverroot@LAPTOP-HFN8C8QO:~/fifteenPuzzleSolver/15-Puzzle-Solver# exit
+exit
+
+Script done on 2021-04-17 20:22:56-0400
