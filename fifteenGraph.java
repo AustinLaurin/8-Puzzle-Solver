@@ -1,8 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 import java.util.Queue;
 
 public class fifteenGraph {
@@ -29,7 +27,7 @@ public class fifteenGraph {
         public int getDepth() {
             return depth;
         }
-
+        
         public int calculateDistancesFromFinalPosition() {
             int sum = 0;
             
@@ -209,7 +207,38 @@ public class fifteenGraph {
 
             return moves;
         }
-    
+        /*
+        public int distanceFromSpecialCondition() {
+            int sum = 0;
+            int[] coordinates;
+
+            if(element[0][1] != 1) {
+                coordinates = distanceCalculator(1);
+                sum += Math.abs(0 - coordinates[0]) + Math.abs(1 - coordinates[1]);
+            }
+            else if(element[element.length - 1][element[0].length - 1] != 0) {
+                coordinates = distanceCalculator(0);
+                sum += Math.abs(element.length - 1 - coordinates[0]) + Math.abs(element[0].length - 1 - coordinates[1]);
+            }          
+
+            return sum;
+        }
+
+        public int[] distanceCalculator(int num) {
+            int[] coordinates = new int[2];
+
+            for(int i = 0; i < element.length; i++) {
+                for(int j = 0; j < element[i].length;j++) {
+                    if(element[i][j] == num) {
+                        coordinates[0] = i;
+                        coordinates[1] = j;
+                    }
+                }
+            }
+
+            return coordinates;
+        }
+        */
         public Node getParent() {
             return parent;
         }
@@ -249,19 +278,42 @@ public class fifteenGraph {
             }
             
             int minF = findMinimumFInChildren(lastMove);
-            for(Node c: lastMove.getChildren()) {
-                if(h(c) == 0) {
-                    lastMove = c;
-                    moves.add(c.getCreatedBy());
-                    solved = true;
-                    break;
+            boolean inCycle = false;
+            do {
+                for(Node c: lastMove.getChildren()) {
+                    if(f(c) == minF && (c.getCreatedBy() == c.getParent().getCreatedBy())) {
+                        lastMove = c.getParent();
+                        moves.add(c.getCreatedBy());
+                        ArrayList<Node> childrenList = lastMove.getChildren();
+
+                        for(int j = 0; j < childrenList.size(); j++) {
+                            if(childrenList.get(j) == c) {
+                                childrenList.remove(c);
+                            }
+                        }
+                        System.out.println("Chosen move: " + c.getCreatedBy());
+                        System.out.println("Resulting matrix: ");
+                        for(int i = 0; i < c.getElement().length; i++)
+                            System.out.println(Arrays.toString(c.getElement()[i]));
+                        inCycle = true;
+                        minF = findMinimumFInChildren(lastMove);
+                        break;
+                    }
+                    else if(h(c) == 0) {
+                        lastMove = c;
+                        moves.add(c.getCreatedBy());
+                        solved = true;
+                        inCycle = false;
+                        break;
+                    }
+                    else if(f(c) == minF) {
+                        lastMove = c;
+                        moves.add(c.getCreatedBy());
+                        inCycle = false;
+                        break;
+                    }
                 }
-                else if(f(c) == minF) {
-                    lastMove = c;
-                    moves.add(c.getCreatedBy());
-                    break;
-                }
-            }
+            } while(inCycle);
             System.out.println("Chosen move: " + lastMove.getCreatedBy());
             System.out.println("Resulting matrix: ");
             for(int i = 0; i < lastMove.getElement().length; i++)
