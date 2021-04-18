@@ -3,7 +3,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class fifteenGraph {
+public class eightGraph {
     private static class Node {
         private int[][] element;
         private int depth;
@@ -262,7 +262,7 @@ public class fifteenGraph {
     private Node lastMove;
     private Queue<Integer> moves = new LinkedList<>();
 
-    fifteenGraph(int[][] puzzle) {
+    eightGraph(int[][] puzzle) {
         root = new Node(puzzle, 0, null, 0);
     }
 
