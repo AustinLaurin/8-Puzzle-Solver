@@ -207,19 +207,19 @@ public class fifteenGraph {
 
             return moves;
         }
-        /*
+        
         public int distanceFromSpecialCondition() {
             int sum = 0;
             int[] coordinates;
 
-            if(element[0][1] != 1) {
+            if(element[0][0] != 1) {
                 coordinates = distanceCalculator(1);
+                sum += Math.abs(0 - coordinates[0]) + Math.abs(0 - coordinates[1]);
+            }   
+            else if(element[0][1] != 2) {
+                coordinates = distanceCalculator(2);
                 sum += Math.abs(0 - coordinates[0]) + Math.abs(1 - coordinates[1]);
-            }
-            else if(element[element.length - 1][element[0].length - 1] != 0) {
-                coordinates = distanceCalculator(0);
-                sum += Math.abs(element.length - 1 - coordinates[0]) + Math.abs(element[0].length - 1 - coordinates[1]);
-            }          
+            }      
 
             return sum;
         }
@@ -238,7 +238,7 @@ public class fifteenGraph {
 
             return coordinates;
         }
-        */
+        
         public Node getParent() {
             return parent;
         }
@@ -283,7 +283,7 @@ public class fifteenGraph {
                 for(Node c: lastMove.getChildren()) {
                     if(f(c) == minF && (c.getCreatedBy() == c.getParent().getCreatedBy())) {
                         lastMove = c.getParent();
-                        moves.add(c.getCreatedBy());
+                        //moves.add(c.getCreatedBy());
                         ArrayList<Node> childrenList = lastMove.getChildren();
 
                         for(int j = 0; j < childrenList.size(); j++) {
@@ -291,10 +291,10 @@ public class fifteenGraph {
                                 childrenList.remove(c);
                             }
                         }
-                        System.out.println("Chosen move: " + c.getCreatedBy());
-                        System.out.println("Resulting matrix: ");
-                        for(int i = 0; i < c.getElement().length; i++)
-                            System.out.println(Arrays.toString(c.getElement()[i]));
+                        // System.out.println("Chosen move: " + c.getCreatedBy());
+                        // System.out.println("Resulting matrix: ");
+                        // for(int i = 0; i < c.getElement().length; i++)
+                        //     System.out.println(Arrays.toString(c.getElement()[i]));
                         inCycle = true;
                         minF = findMinimumFInChildren(lastMove);
                         break;
@@ -342,7 +342,7 @@ public class fifteenGraph {
     }
 
     public int h(Node n) {
-        return n.getDistancesFromFinalPosition() + (2 * n.calculateLinearConflicts());
+        return n.getDistancesFromFinalPosition() + (2 * n.calculateLinearConflicts()) + n.distanceFromSpecialCondition();
     }
 
     public int[][] makeMove(Node n, int move) {
