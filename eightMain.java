@@ -3,9 +3,6 @@ import java.util.Scanner;
 
 public class eightMain {
     public static void main(String[] args) {
-        // int[][] puzzle = {{4, 2, 5},
-        //                   {1, 0, 6},
-        //                   {3, 8, 7}};
         try {
             FileReader fr = new FileReader("puzzle");
             int[][] puzzle = new int[3][3];
@@ -22,6 +19,8 @@ public class eightMain {
             eg.solve();
             System.out.println("Moves made: ");
             eg.listMoves();
+            s.close();
+            fr.close();
         }
         catch(Exception e) {
             System.out.println(e.getMessage());
