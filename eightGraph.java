@@ -285,7 +285,6 @@ public class eightGraph {
                 for(Node c: lastMove.getChildren()) {
                     if(f(c) == minF && (c.getCreatedBy() == c.getParent().getCreatedBy())) {
                         lastMove = c.getParent();
-                        //moves.add(c.getCreatedBy());
                         ArrayList<Node> childrenList = lastMove.getChildren();
 
                         for(int j = 0; j < childrenList.size(); j++) {
@@ -293,10 +292,6 @@ public class eightGraph {
                                 childrenList.remove(c);
                             }
                         }
-                        // System.out.println("Chosen move: " + c.getCreatedBy());
-                        // System.out.println("Resulting matrix: ");
-                        // for(int i = 0; i < c.getElement().length; i++)
-                        //     System.out.println(Arrays.toString(c.getElement()[i]));
                         inCycle = true;
                         minF = findMinimumFInChildren(lastMove);
                         break;
